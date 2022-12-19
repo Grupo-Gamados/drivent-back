@@ -6,7 +6,7 @@ import tikectRepository from "@/repositories/ticket-repository";
 async function checkUserAcess(userId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
   if (!enrollment) {
-    throw forbiddenError();
+    throw paymentRequiredError();
   }
   const ticket = await tikectRepository.findTicketByEnrollmentId(enrollment.id);
 
@@ -22,7 +22,7 @@ async function checkUserAcess(userId: number) {
 async function getListEventDays(userId: number) {
   await checkUserAcess(userId);
 
-  /* return activitiesRepository.create({ roomId, userId }); */
+  /* return activitiesRepository.getListEventDays(); */
 }
 
 const activitiesService = {
