@@ -138,3 +138,33 @@ model Booking {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Days {
+  id          Int           @id @default(autoincrement())
+  name        String
+  Activities  Activities[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Locals {
+  id          Int           @id @default(autoincrement())
+  name        String
+  Activities  Activities[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Activities {
+  id          Int      @id @default(autoincrement())
+  name        String
+  startTime   DateTime @db.Time(6)
+  endTime     DateTime @db.Time(6)
+  totalVagas  Int
+  Days        Days     @relation(fields: [dayId], references: [id])
+  dayId       Int
+  Locals      Locals   @relation(fields: [localId], references: [id])
+  localId     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
