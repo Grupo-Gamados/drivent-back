@@ -1,5 +1,5 @@
 import { forbiddenError, paymentRequiredError } from "@/errors";
-/* import activitiesRepository from "@/repositories/activities-repository"; */
+import activitiesRepository from "@/repositories/activities-repository";
 import enrollmentRepository from "@/repositories/enrollment-repository";
 import tikectRepository from "@/repositories/ticket-repository";
 
@@ -22,7 +22,7 @@ async function checkUserAcess(userId: number) {
 async function getListEventDays(userId: number) {
   await checkUserAcess(userId);
 
-  /* return activitiesRepository.getListEventDays(); */
+  return activitiesRepository.getListEventDays();
 }
 
 const activitiesService = {
