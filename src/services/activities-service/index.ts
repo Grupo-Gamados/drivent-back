@@ -22,7 +22,9 @@ async function checkUserAcess(userId: number) {
 async function getListEventDays(userId: number) {
   await checkUserAcess(userId);
 
-  return activitiesRepository.getListEventDays();
+  const eventDays = await activitiesRepository.getListEventDays();
+
+  return eventDays;
 }
 
 const activitiesService = {

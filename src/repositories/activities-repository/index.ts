@@ -1,7 +1,11 @@
 import { prisma } from "@/config";
 
 async function getListEventDays() {
-  return prisma.activities.findMany({});
+  return prisma.days.findMany({
+    select: {
+      name: true,
+    },
+  });
 }
 
 const activitiesRepository = {
