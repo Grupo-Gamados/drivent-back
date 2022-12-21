@@ -173,6 +173,33 @@ async function main() {
     });
   }
 
+  await prisma.ticketType.create({
+    data: {
+      name: "online",
+      price: 100,
+      isRemote: true,
+      includesHotel: false,
+    },
+  });
+
+  await prisma.ticketType.create({
+    data: {
+      name: "presencial",
+      price: 250,
+      isRemote: false,
+      includesHotel: false,
+    },
+  });
+
+  await prisma.ticketType.create({
+    data: {
+      name: "presencial",
+      price: 600,
+      isRemote: false,
+      includesHotel: true,
+    },
+  });
+
   console.log({ event });
 }
 
