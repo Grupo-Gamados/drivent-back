@@ -158,8 +158,8 @@ model Locals {
 model Activities {
   id          Int      @id @default(autoincrement())
   name        String
-  startTime   DateTime @db.Time(6)
-  endTime     DateTime @db.Time(6)
+  startTime   String
+  endTime     String
   totalVagas  Int
   Days        Days     @relation(fields: [dayId], references: [id])
   dayId       Int
