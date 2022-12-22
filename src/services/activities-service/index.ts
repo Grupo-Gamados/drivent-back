@@ -27,8 +27,17 @@ async function getListEventDays(userId: number) {
   return eventDays;
 }
 
+async function getActivitiesWithDayId(userId: number, dayId: number) {
+  await checkUserAcess(userId);
+
+  const dayActivities = await activitiesRepository.getActivitiesWithDayId(dayId);
+
+  return dayActivities;
+}
+
 const activitiesService = {
   getListEventDays,
+  getActivitiesWithDayId,
 };
 
 export default activitiesService;
