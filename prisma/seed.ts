@@ -200,6 +200,27 @@ async function main() {
     },
   });
 
+  await prisma.hotel.create({
+    data: {
+      name: "Driven Resort",
+      image: "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
+    },
+  });
+
+  await prisma.hotel.create({
+    data: {
+      name: "Driven Palace",
+      image: "https://media-cdn.tripadvisor.com/media/photo-s/1d/05/37/ea/exterior-view.jpg",
+    },
+  });
+
+  await prisma.hotel.create({
+    data: {
+      name: "Driven World",
+      image: "https://media-cdn.tripadvisor.com/media/photo-s/19/ee/b4/79/axel-hotel-barcelona.jpg",
+    },
+  });
+
   console.log({ event });
 }
 
