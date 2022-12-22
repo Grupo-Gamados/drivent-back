@@ -11,6 +11,15 @@ async function getListEventDays() {
 
 async function getActivitiesWithDayId(dayId: number) {
   return prisma.activities.findMany({
+    select: {
+      id: true,
+      name: true,
+      startTime: true,
+      endTime: true,
+      totalVagas: true,
+      dayId: true,
+      localId: true,
+    },
     where: {
       dayId: dayId,
     },
