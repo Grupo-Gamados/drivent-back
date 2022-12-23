@@ -211,6 +211,107 @@ async function main() {
     },
   });
 
+  await prisma.hotel.create({
+    data: {
+      name: "Driven Resort",
+      image: "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
+    },
+  });
+
+  await prisma.hotel.create({
+    data: {
+      name: "Driven Palace",
+      image: "https://media-cdn.tripadvisor.com/media/photo-s/1d/05/37/ea/exterior-view.jpg",
+    },
+  });
+
+  await prisma.hotel.create({
+    data: {
+      name: "Driven World",
+      image: "https://media-cdn.tripadvisor.com/media/photo-s/19/ee/b4/79/axel-hotel-barcelona.jpg",
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 1",
+      capacity: 1,
+      hotelId: 1,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 1",
+      capacity: 1,
+      hotelId: 2,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 1",
+      capacity: 1,
+      hotelId: 3,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 2",
+      capacity: 2,
+      hotelId: 1,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 2",
+      capacity: 2,
+      hotelId: 2,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 2",
+      capacity: 2,
+      hotelId: 3,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 3",
+      capacity: 2,
+      hotelId: 1,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 3",
+      capacity: 3,
+      hotelId: 2,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 3",
+      capacity: 2,
+      hotelId: 3,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 4",
+      capacity: 8,
+      hotelId: 2,
+    },
+  });
+
   console.log({ event });
 }
 
