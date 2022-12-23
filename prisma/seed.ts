@@ -221,6 +221,86 @@ async function main() {
     },
   });
 
+  await prisma.room.create({
+    data: {
+      name: "Room 1",
+      capacity: 1,
+      hotelId: 1,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 1",
+      capacity: 1,
+      hotelId: 2,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 1",
+      capacity: 1,
+      hotelId: 3,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 2",
+      capacity: 2,
+      hotelId: 1,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 2",
+      capacity: 2,
+      hotelId: 2,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 2",
+      capacity: 2,
+      hotelId: 3,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 3",
+      capacity: 2,
+      hotelId: 1,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 3",
+      capacity: 3,
+      hotelId: 2,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 3",
+      capacity: 2,
+      hotelId: 3,
+    },
+  });
+
+  await prisma.room.create({
+    data: {
+      name: "Room 4",
+      capacity: 8,
+      hotelId: 2,
+    },
+  });
+
   console.log({ event });
 }
 
