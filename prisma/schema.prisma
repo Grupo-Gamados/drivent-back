@@ -160,6 +160,7 @@ model Activities {
   name        String
   startTime   String
   endTime     String
+  duration    String
   totalVagas  Int
   Days        Days     @relation(fields: [dayId], references: [id])
   dayId       Int

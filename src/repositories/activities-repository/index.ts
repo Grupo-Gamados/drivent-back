@@ -16,6 +16,7 @@ async function getActivitiesWithDayId(dayId: number) {
       name: true,
       startTime: true,
       endTime: true,
+      duration: true,
       totalVagas: true,
       dayId: true,
       localId: true,
