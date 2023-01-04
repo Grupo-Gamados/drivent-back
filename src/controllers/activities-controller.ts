@@ -14,11 +14,8 @@ export async function listEventDays(req: AuthenticatedRequest, res: Response) {
     if (error.name === "ForbiddenError") {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
-    if (error.name === "paymentRequiredError") {
+    if (error.name === "PaymentRequiredError") {
       return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
-    }
-    if (error.name === "notFoundError") {
-      return res.sendStatus(httpStatus.NOT_FOUND);
     }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
@@ -36,11 +33,33 @@ export async function listActivitiesWithDayId(req: AuthenticatedRequest, res: Re
     if (error.name === "ForbiddenError") {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
-    if (error.name === "paymentRequiredError") {
+    if (error.name === "PaymentRequiredError") {
       return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
     }
-    if (error.name === "notFoundError") {
-      return res.sendStatus(httpStatus.NOT_FOUND);
+
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}
+
+export async function registerForActivity(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+  const { activityId } = req.body;
+
+  try {
+    await activitiesService.registerForActivityById(Number(userId), Number(activityId));
+
+    return res.status(httpStatus.CREATED).send({
+      message: "Inscrição com sucesso",
+    });
+  } catch (error) {
+    if (error.name === "ForbiddenError") {
+      return res.sendStatus(httpStatus.FORBIDDEN);
+    }
+    if (error.name === "PaymentRequiredError") {
+      return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+    }
+    if (error.name === "ConflictError") {
+      return res.sendStatus(httpStatus.CONFLICT);
     }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }

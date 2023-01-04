@@ -1,4 +1,5 @@
 import { prisma } from "@/config";
+import { Registration_activities } from "@prisma/client";
 
 async function getListEventDays() {
   return prisma.days.findMany({
@@ -17,7 +18,7 @@ async function getActivitiesWithDayId(dayId: number) {
       startTime: true,
       endTime: true,
       duration: true,
-      totalVagas: true,
+      vacancies: true,
       dayId: true,
       localId: true,
     },
@@ -27,9 +28,45 @@ async function getActivitiesWithDayId(dayId: number) {
   });
 }
 
+async function registerForActivity({ activityId, userId }: RegisterParams): Promise<Registration_activities> {
+  return prisma.registration_activities.create({
+    data: {
+      userId,
+      activityId,
+    },
+  });
+}
+
+async function getActivityById(activityId: number) {
+  return prisma.activities.findFirst({
+    where: {
+      id: activityId,
+    },
+    select: {
+      vacancies: true, //inner join
+    },
+  });
+}
+
+async function updateVacancies(activityId: number, vacanciesAtt: number) {
+  return prisma.activities.update({
+    where: {
+      id: activityId,
+    },
+    data: {
+      vacancies: vacanciesAtt,
+    },
+  });
+}
+
+export type RegisterParams = Omit<Registration_activities, "id" | "createdAt" | "updatedAt">;
+
 const activitiesRepository = {
   getListEventDays,
   getActivitiesWithDayId,
+  registerForActivity,
+  updateVacancies,
+  getActivityById,
 };
 
 export default activitiesRepository;

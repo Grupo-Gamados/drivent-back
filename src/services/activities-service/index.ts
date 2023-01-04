@@ -1,4 +1,4 @@
-import { forbiddenError, paymentRequiredError } from "@/errors";
+import { forbiddenError, paymentRequiredError, conflictError } from "@/errors";
 import activitiesRepository from "@/repositories/activities-repository";
 import enrollmentRepository from "@/repositories/enrollment-repository";
 import tikectRepository from "@/repositories/ticket-repository";
@@ -35,9 +35,28 @@ async function getActivitiesWithDayId(userId: number, dayId: number) {
   return dayActivities;
 }
 
+async function registerForActivityById(userId: number, activityId: number) {
+  await checkUserAcess(userId);
+
+  const { vacancies } = await activitiesRepository.getActivityById(activityId);
+
+  if (vacancies === 0) {
+    throw conflictError("Não há vagas");
+  }
+
+  await activitiesRepository.registerForActivity({ activityId, userId });
+
+  const vacanciesAtt = Number(vacancies) - 1;
+
+  await activitiesRepository.updateVacancies(activityId, Number(vacanciesAtt));
+
+  return;
+}
+
 const activitiesService = {
   getListEventDays,
   getActivitiesWithDayId,
+  registerForActivityById,
 };
 
 export default activitiesService;

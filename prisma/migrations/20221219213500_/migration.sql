@@ -24,7 +24,7 @@ CREATE TABLE "Activities" (
     "name" TEXT NOT NULL,
     "startTime" TIME(4) NOT NULL,
     "endTime" TIME(4) NOT NULL,
-    "totalVagas" INTEGER NOT NULL,
+    "vacancies" INTEGER NOT NULL,
     "dayId" INTEGER NOT NULL,
     "localId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
