@@ -43,7 +43,10 @@ async function getActivityById(activityId: number) {
       id: activityId,
     },
     select: {
-      vacancies: true, //inner join
+      vacancies: true,
+      startTime: true,
+      endTime: true,
+      dayId: true,
     },
   });
 }
@@ -59,6 +62,17 @@ async function updateVacancies(activityId: number, vacanciesAtt: number) {
   });
 }
 
+async function getUserActivities(userId: number) {
+  return prisma.registration_activities.findMany({
+    include: {
+      Activities: true,
+    },
+    where: {
+      userId: userId,
+    },
+  });
+}
+
 export type RegisterParams = Omit<Registration_activities, "id" | "createdAt" | "updatedAt">;
 
 const activitiesRepository = {
@@ -67,6 +81,7 @@ const activitiesRepository = {
   registerForActivity,
   updateVacancies,
   getActivityById,
+  getUserActivities,
 };
 
 export default activitiesRepository;

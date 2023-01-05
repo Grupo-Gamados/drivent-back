@@ -35,13 +35,41 @@ async function getActivitiesWithDayId(userId: number, dayId: number) {
   return dayActivities;
 }
 
+function convertHourForNumber(hour: string) {
+  const hourNumber = Number(hour.substring(0, 2));
+  const minutesNumber = Number(hour.substring(3, 5));
+
+  const convertMinutesForFloat = (10 * minutesNumber) / 60 / 10;
+
+  const hourForUse = hourNumber + convertMinutesForFloat;
+
+  return hourForUse;
+}
+
 async function registerForActivityById(userId: number, activityId: number) {
   await checkUserAcess(userId);
 
-  const { vacancies } = await activitiesRepository.getActivityById(activityId);
+  const { vacancies, startTime, endTime, dayId } = await activitiesRepository.getActivityById(activityId);
+  const startTimeNumber = convertHourForNumber(startTime);
+  const endTimeNumber = convertHourForNumber(endTime);
 
   if (vacancies === 0) {
     throw conflictError("Não há vagas");
+  }
+
+  const userActivities = await activitiesRepository.getUserActivities(userId);
+  const userActivitiesDay = userActivities.filter((act) => act.Activities.dayId === dayId);
+
+  for (let i = 0; i < userActivitiesDay.length; i++) {
+    const startTimeAct = convertHourForNumber(userActivitiesDay[i].Activities.startTime);
+    const endTimeAct = convertHourForNumber(userActivitiesDay[i].Activities.endTime);
+
+    if (
+      (startTimeAct <= startTimeNumber && startTimeNumber < endTimeAct) ||
+      (startTimeAct < endTimeNumber && endTimeNumber <= endTimeAct)
+    ) {
+      throw conflictError("Você já se inscreveu em uma  atividade neste horário");
+    }
   }
 
   await activitiesRepository.registerForActivity({ activityId, userId });

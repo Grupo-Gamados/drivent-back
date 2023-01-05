@@ -15,7 +15,7 @@ export async function listEventDays(req: AuthenticatedRequest, res: Response) {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
     if (error.name === "PaymentRequiredError") {
-      return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+      return res.status(httpStatus.PAYMENT_REQUIRED);
     }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
@@ -59,7 +59,7 @@ export async function registerForActivity(req: AuthenticatedRequest, res: Respon
       return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
     }
     if (error.name === "ConflictError") {
-      return res.sendStatus(httpStatus.CONFLICT);
+      return res.status(httpStatus.CONFLICT).send(error.message);
     }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
