@@ -214,18 +214,20 @@ describe("GET /activities/3", () => {
           name: "Palesta com Elon Musk Jr",
           startTime: "08:00",
           endTime: "11:00",
-          totalVagas: 50,
+          vacancies: 50,
           dayId: 3,
           localId: 1,
+          duration: 3,
         },
         {
           id: 11,
           name: "Assistir o filme do Pelé",
           startTime: "09:00",
           endTime: "11:00",
-          totalVagas: 50,
+          vacancies: 50,
           dayId: 3,
           localId: 3,
+          duration: 2,
         },
       ]);
     });
