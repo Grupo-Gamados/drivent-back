@@ -31,19 +31,21 @@ async function getActivitiesWithDayId(userId: number, dayId: number) {
   await checkUserAcess(userId);
 
   const dayActivities = await activitiesRepository.getActivitiesWithDayId(dayId);
+  const userActivities = await activitiesRepository.getUserActivitiesRegistered(userId);
 
-  return dayActivities;
-}
+  const newListDayActivities = dayActivities.map((act) => {
+    let newObjectAct = { ...act, isRegistered: false };
 
-function convertHourForNumber(hour: string) {
-  const hourNumber = Number(hour.substring(0, 2));
-  const minutesNumber = Number(hour.substring(3, 5));
+    for (let i = 0; i < userActivities.length; i++) {
+      if (act.id === userActivities[i].activityId) {
+        newObjectAct = { ...act, isRegistered: true };
+      }
+    }
 
-  const convertMinutesForFloat = (10 * minutesNumber) / 60 / 10;
+    return newObjectAct;
+  });
 
-  const hourForUse = hourNumber + convertMinutesForFloat;
-
-  return hourForUse;
+  return newListDayActivities;
 }
 
 async function registerForActivityById(userId: number, activityId: number) {
@@ -79,6 +81,17 @@ async function registerForActivityById(userId: number, activityId: number) {
   await activitiesRepository.updateVacancies(activityId, Number(vacanciesAtt));
 
   return;
+}
+
+function convertHourForNumber(hour: string) {
+  const hourNumber = Number(hour.substring(0, 2));
+  const minutesNumber = Number(hour.substring(3, 5));
+
+  const convertMinutesForFloat = (10 * minutesNumber) / 60 / 10;
+
+  const hourForUse = hourNumber + convertMinutesForFloat;
+
+  return hourForUse;
 }
 
 const activitiesService = {

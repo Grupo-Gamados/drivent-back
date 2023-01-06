@@ -73,6 +73,17 @@ async function getUserActivities(userId: number) {
   });
 }
 
+async function getUserActivitiesRegistered(userId: number) {
+  return prisma.registration_activities.findMany({
+    select: {
+      activityId: true,
+    },
+    where: {
+      userId: userId,
+    },
+  });
+}
+
 export type RegisterParams = Omit<Registration_activities, "id" | "createdAt" | "updatedAt">;
 
 const activitiesRepository = {
@@ -82,6 +93,7 @@ const activitiesRepository = {
   updateVacancies,
   getActivityById,
   getUserActivities,
+  getUserActivitiesRegistered,
 };
 
 export default activitiesRepository;
