@@ -1,8 +1,15 @@
 import { request } from "./request";
 
+type GithubUser = {
+  email: string;
+  primary: boolean;
+  verified: boolean;
+  visibility: string | boolean;
+}
+
 async function getAccessToken(code: string) {
   const GITHUB_ACCESS_TOKEN_URL = "https://github.com/loign/oauth/access_token";
-  const GITHUB_USER_URL = "https://api.github.com/user";
+  const GITHUB_USER_URL = "https://api.github.com/user/emails";
   
   const params = { 
     code,
@@ -21,10 +28,10 @@ async function getAccessToken(code: string) {
       Authorization: `Bearer ${token}`
     }
   });
-
-  const userEmail = userResponse.data.email;
-
-  return userEmail;
+  
+  const user = await userResponse.data.find((e: GithubUser) => {return e.primary === true;});
+  
+  return user[0].email;
 }
 
 export { getAccessToken };
