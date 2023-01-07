@@ -4,9 +4,9 @@ import httpStatus from "http-status";
 import activitiesService from "@/services/activities-service";
 
 export async function listEventDays(req: AuthenticatedRequest, res: Response) {
-  try {
-    const { userId } = req;
+  const { userId } = req;
 
+  try {
     const eventDays = await activitiesService.getListEventDays(Number(userId));
 
     return res.status(httpStatus.OK).send(eventDays);
@@ -15,8 +15,9 @@ export async function listEventDays(req: AuthenticatedRequest, res: Response) {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
     if (error.name === "PaymentRequiredError") {
-      return res.status(httpStatus.PAYMENT_REQUIRED);
+      return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
     }
+
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
@@ -26,9 +27,9 @@ export async function listActivitiesWithDayId(req: AuthenticatedRequest, res: Re
   const { dayId } = req.params;
 
   try {
-    const hotels = await activitiesService.getActivitiesWithDayId(Number(userId), Number(dayId));
+    const activities = await activitiesService.getActivitiesWithDayId(Number(userId), Number(dayId));
 
-    return res.status(httpStatus.OK).send(hotels);
+    return res.status(httpStatus.OK).send(activities);
   } catch (error) {
     if (error.name === "ForbiddenError") {
       return res.sendStatus(httpStatus.FORBIDDEN);
