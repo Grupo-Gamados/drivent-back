@@ -307,7 +307,7 @@ async function main() {
   await prisma.room.create({
     data: {
       name: "Room 4",
-      capacity: 8,
+      capacity: 3,
       hotelId: 2,
     },
   });
