@@ -6,11 +6,22 @@ import bookingService from "@/services/booking-service";
 export async function listBooking(req: AuthenticatedRequest, res: Response) {
   try {
     const { userId } = req;
-    const booking = await bookingService.getBooking(userId);
+    const userBooking = await bookingService.getBooking(userId);
+    const bookingList = await bookingService.getAllBooking();
     return res.status(httpStatus.OK).send({
-      id: booking.id,
-      Room: booking.Room,
+      id: userBooking.id,
+      Room: userBooking.Room,
+      bookingList,
     });
+  } catch (error) {
+    return res.sendStatus(httpStatus.NOT_FOUND);
+  }
+}
+export async function listBookingByRoomId(req: AuthenticatedRequest, res: Response) {
+  const roomId = Number(req.params.roomId);
+  try {
+    const bookingByRoom = await bookingService.getBookingByRoomId(roomId);
+    return res.status(httpStatus.OK).send(bookingByRoom);
   } catch (error) {
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
@@ -67,4 +78,3 @@ export async function changeBooking(req: AuthenticatedRequest, res: Response) {
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }
-

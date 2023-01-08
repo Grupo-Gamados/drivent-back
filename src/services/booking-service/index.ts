@@ -37,6 +37,24 @@ async function getBooking(userId: number) {
   return booking;
 }
 
+async function getBookingByRoomId(roomId: number) {
+  const booking = await bookingRepository.findByRoomId(roomId);
+  if (!booking) {
+    throw notFoundError();
+  }
+
+  return booking;
+}
+
+async function getAllBooking() {
+  const booking = await bookingRepository.findBookingList();
+  if (!booking) {
+    throw notFoundError();
+  }
+
+  return booking;
+}
+
 async function bookingRoomById(userId: number, roomId: number) {
   await checkEnrollmentTicket(userId);
   await checkValidBooking(roomId);
@@ -55,7 +73,7 @@ async function changeBookingRoomById(userId: number, roomId: number) {
   return bookingRepository.upsertBooking({
     id: booking.id,
     roomId,
-    userId
+    userId,
   });
 }
 
@@ -63,6 +81,8 @@ const bookingService = {
   bookingRoomById,
   getBooking,
   changeBookingRoomById,
+  getAllBooking,
+  getBookingByRoomId,
 };
 
 export default bookingService;
