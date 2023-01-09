@@ -39,6 +39,6 @@ const oauthLoginService = { signInUsingGithub };
 
 export default oauthLoginService;
 
-export type OauthCode = { code: string; };
+export type OauthCode = { code: string };
 
-type GetOAuthUserResult = Pick <User, "id" | "email">;
+type GetOAuthUserResult = Pick<User, "id" | "email">;

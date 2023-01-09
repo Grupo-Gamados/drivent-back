@@ -8,6 +8,7 @@ async function checkUserAcess(userId: number) {
   if (!enrollment) {
     throw paymentRequiredError();
   }
+
   const ticket = await tikectRepository.findTicketByEnrollmentId(enrollment.id);
 
   if (!ticket || ticket.status === "RESERVED") {
