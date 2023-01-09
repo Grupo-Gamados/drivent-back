@@ -8,11 +8,13 @@ export async function listBooking(req: AuthenticatedRequest, res: Response) {
     const { userId } = req;
     const userBooking = await bookingService.getBooking(userId);
     const bookingList = await bookingService.getAllBooking();
-    return res.status(httpStatus.OK).send({
-      id: userBooking.id,
-      Room: userBooking.Room,
-      bookingList,
-    });
+    if (userBooking && bookingList) {
+      return res.status(httpStatus.OK).send({
+        id: userBooking.id,
+        Room: userBooking.Room,
+        bookingList,
+      });
+    } else return res.status(httpStatus.OK).send({ userBooking, bookingList });
   } catch (error) {
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
