@@ -2,6 +2,7 @@ import "reflect-metadata";
 import "express-async-errors";
 import express, { Express } from "express";
 import cors from "cors";
+import morgan from "morgan";
 
 import { loadEnv, connectDb, disconnectDB } from "@/config";
 
@@ -25,6 +26,7 @@ const app = express();
 app
   .use(cors())
   .use(express.json())
+  .use(morgan("dev"))
   .get("/health", (_req, res) => res.send("OK!"))
   .use("/users", usersRouter)
   .use("/auth", authenticationRouter)

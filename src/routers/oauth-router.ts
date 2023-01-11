@@ -5,6 +5,6 @@ import { oauthSchema } from "@/schemas";
 
 const oauthRouter = Router();
 
-oauthRouter.post("/github/login", validateBody(oauthSchema), signInUsingGithub);
+oauthRouter.post("/github/login", signInUsingGithub);
 
 export { oauthRouter };
