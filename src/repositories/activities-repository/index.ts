@@ -28,12 +28,15 @@ async function getActivitiesWithDayId(dayId: number) {
   });
 }
 
-async function registerForActivity({ activityId, userId }: RegisterParams): Promise<Registration_activities> {
-  return prisma.registration_activities.create({
-    data: {
-      userId,
-      activityId,
-    },
+async function registerForActivity(activityId: number, userId: number, vacanciesAtt: number): Promise<void> {
+  return await prisma.$transaction(async (prisma) => {
+    await prisma.registration_activities.create({
+      data: {
+        userId,
+        activityId,
+      },
+    });
+    await updateVacancies(activityId, vacanciesAtt);
   });
 }
 

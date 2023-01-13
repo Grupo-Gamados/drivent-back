@@ -75,9 +75,9 @@ async function registerForActivityById(userId: number, activityId: number) {
     }
   }
 
-  await activitiesRepository.registerForActivity({ activityId, userId });
-
   const vacanciesAtt = Number(vacancies) - 1;
+
+  await activitiesRepository.registerForActivity(activityId, userId, vacanciesAtt);
 
   await activitiesRepository.updateVacancies(activityId, Number(vacanciesAtt));
 
