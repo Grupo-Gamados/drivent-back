@@ -13,20 +13,14 @@ async function getAddressFromCEP(cep: string): Promise<AddressEnrollment> {
     throw notFoundError(); //lançar -> pro arquivo que chamou essa função
   }
 
-  const {
-    bairro,
-    localidade,
-    uf,
-    complemento,
-    logradouro
-  } = result;
+  const { bairro, localidade, uf, complemento, logradouro } = result;
 
   const address = {
     bairro,
     cidade: localidade,
     uf,
     complemento,
-    logradouro
+    logradouro,
   };
 
   return address;
@@ -39,7 +33,6 @@ async function getOneWithAddressByUserId(userId: number): Promise<GetOneWithAddr
 
   const [firstAddress] = enrollmentWithAddress.Address;
   const address = getFirstAddress(firstAddress);
-
   return {
     ...exclude(enrollmentWithAddress, "userId", "createdAt", "updatedAt", "Address"),
     ...(!!address && { address }),
@@ -67,9 +60,15 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
     throw notFoundError();
   }
 
-  const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, "userId"));
+  const newEnrollment = await enrollmentRepository.upsertEnrollmentAndAdress(
+    params.userId,
+    enrollment,
+    exclude(enrollment, "userId"),
+    address,
+    address,
+  );
 
-  await addressRepository.upsert(newEnrollment.id, address, address);
+  return newEnrollment;
 }
 
 function getAddressForUpsert(address: CreateAddressParams) {
@@ -86,7 +85,7 @@ export type CreateOrUpdateEnrollmentWithAddress = CreateEnrollmentParams & {
 const enrollmentsService = {
   getOneWithAddressByUserId,
   createOrUpdateEnrollmentWithAddress,
-  getAddressFromCEP
+  getAddressFromCEP,
 };
 
 export default enrollmentsService;
