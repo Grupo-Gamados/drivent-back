@@ -1,0 +1,32 @@
+version: "3.3"
+volumes:
+  db_data: null
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - drivent
+    working_dir: /usr/src/app
+    env_file: .env.docker
+    depends_on:
+      - db
+    command: sh -c "npx prisma db push && npx ts-node prisma/seed.ts && npm run dev"
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    env_file: .env.docker
+    networks:
+      - drivent
+
+networks:
+  drivent: {}
