@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { SignInResult } from "../authentication-service";
 
 async function signInUsingGithub(login: string): Promise<SignInResult> {
-  const githubEmail = login+"@github.com";
+  const githubEmail = login + "@github.com";
   const userExists = await userRepository.findByEmail(githubEmail);
 
   if (!userExists) {
@@ -16,10 +16,6 @@ async function signInUsingGithub(login: string): Promise<SignInResult> {
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
   const otherToken = await sessionRepository.create({ token, userId: user.id });
 
-  console.log(user);
-  console.log(token);
-  console.log(otherToken);
-  
   return { token, user };
 }
 

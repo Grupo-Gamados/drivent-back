@@ -15,20 +15,19 @@ export async function signInUsingGithub(req: Request, res: Response) {
 }
 
 async function getAccessToken(code: string) {
-  const GITHUB_ACCESS_TOKEN_URL = "https://github.com/loign/oauth/access_token";
-  
-  const params = { 
+  const GITHUB_ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
+  const params = {
     code,
     grant_type: "authorization_code",
     client_id: process.env.GITHUB_CLIENT_ID,
     client_secret: process.env.GITHUB_CLIENT_SECRET,
-    redirect_uri: process.env.GITHUB_REDIRECT_URI
+    redirect_uri: process.env.GITHUB_REDIRECT_URI,
   };
 
   const { data } = await axios.post(GITHUB_ACCESS_TOKEN_URL, params, {
     headers: {
-      "Content_type": "application/json"
-    }
+      Content_type: "application/json",
+    },
   });
 
   const token = data.split("&")[0].split("=")[1];
@@ -39,9 +38,8 @@ async function getAccessToken(code: string) {
 async function fetchUser(token: string) {
   const response = await axios.get("http://api.github.com/user", {
     headers: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
-
   return response.data;
 }
